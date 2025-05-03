@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>MicroEconomics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'post/styles1.css' %}" />
+
+  <style>
+    /* Optional: Style for colored badges if not using inline styles */
+    .badge {
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div style="margin: 20px;">
+    <a href="{% url 'student_dashboard'%}" style="text-decoration: none; color: #333;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <div class="course-detail-container">
+    <h1>MicroEconomics</h1>
+
+    <div class="course-tabs">
+      <button class="tab-btn active" data-target="tabContent">Content</button>
+      <button class="tab-btn" data-target="tabAnnouncement">Announcement</button>
+      <button class="tab-btn" data-target="tabGradebook">GradeBook</button>
+    </div>
+
+    <!-- Content Tab -->
+    <div class="tab-panel active" id="tabContent">
+      <h2>Course Content</h2>
+      <p>An introduction to microeconomics focusing on consumer behavior, production costs, and market structures.</p>
+      <h3>Course Grading</h3>
+      <p>Midterm: 50%<br>Final: 50%</p>
+      <h3>Instructor</h3>
+      <p>
+        <strong>Dr. Eugene Harvard</strong><br>
+        Email: <a href="mailto:harvard@scc.edu.tr">harvard@scc.edu.tr</a>
+      </p>
+    </div>
+
+    <!-- Announcement Tab -->
+    <div class="tab-panel" id="tabAnnouncement">
+      <h2>Announcement</h2>
+      <div class="announcement-item">
+        <h4>Homework #2</h4>
+        <p>Please complete chapters 3 and 4 from the MicroEconomics textbook. Due next Monday.</p>
+      </div>
+    </div>
+
+    <!-- GradeBook Tab -->
+    <div class="tab-panel" id="tabGradebook">
+      <h2>GradeBook</h2>
+      <table class="gradebook">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Final Exam</td>
+            <td>10/5/24</td>
+            <td>Graded</td>
+            <td class="gradeCell">DC</td>
+          </tr>
+          <tr>
+            <td>Midterm Exam</td>
+            <td>10/5/24</td>
+            <td>Graded</td>
+            <td class="gradeCell">AA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching logic
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+      });
+    });
+
+    // Define color mapping for grades
+    const gradeColors = {
+      "AA": "#2980b9",  // Blue
+      "BA": "#27ae60",  // Green
+      "BB": "#27ae60",
+      "CB": "#f1c40f",  // Yellowish
+      "CC": "#f39c12",  // Orange
+      "DC": "#e67e22",  // Dark orange
+      "DD": "#d35400",  // Darker orange
+      "FD": "#c0392b",  // Red
+      "FF": "#c0392b"   // Red
+    };
+
+    // Eligible grades that should be clickable
+    const eligibleGrades = ["FF", "FD", "DD", "DC"];
+
+    // Convert grade cells into colored badges/links
+    document.addEventListener("DOMContentLoaded", function() {
+      const gradeCells = document.querySelectorAll(".gradeCell");
+      
+      gradeCells.forEach(cell => {
+        const gradeText = cell.textContent.trim();
+        const color = gradeColors[gradeText] || "#7f8c8d"; // default gray if undefined
+
+        if (eligibleGrades.includes(gradeText)) {
+          // If eligible, wrap the grade in a link
+          cell.innerHTML = `<a href="{% url 'final_exam'%}" class="eligible-grade" style="color: #fff; background: ${color}; padding: 3px 8px; border-radius: 4px; text-decoration: none;">${gradeText}</a>`;
+        } else {
+          // Otherwise, just display a colored badge
+          cell.innerHTML = `<span class="badge" style="color: #fff; background: ${color}; padding: 3px 8px; border-radius: 4px;">${gradeText}</span>`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+{% load static %}
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Student Dashboard</title>
+  <!-- Font Awesome & CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      padding: 25px 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .student-info {
+      padding: 0 20px 25px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 25px;
+    }
+    
+    .student-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .student-role {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .nav-links {
+      flex: 1;
+    }
+    
+    .nav-links ul {
+      list-style: none;
+    }
+    
+    .nav-links li a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .nav-links li a:hover {
+      background-color: #f5f5f5;
+      color: #2c3e50;
+    }
+    
+    .nav-links li.active a {
+      color: #3498db;
+      font-weight: 500;
+      background-color: #f0f7ff;
+      border-left: 3px solid #3498db;
+    }
+    
+    .nav-links li a i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .logout_ {
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+    
+    .logout_ a {
+      display: flex;
+      align-items: center;
+      color: #e74c3c;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    
+    .logout_ a i {
+      margin-right: 10px;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 30px 40px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    header h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+    
+    .search-bar {
+      position: relative;
+      width: 300px;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 10px 15px 10px 40px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    
+    .search-bar input:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    
+    .search-bar::before {
+      content: "\f002";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+    
+    .results-info {
+      margin-bottom: 20px;
+      color: #666;
+      font-style: italic;
+    }
+    
+    /* Courses Grid */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    
+    .course-card {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .course-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    
+    .course-info {
+      padding: 18px;
+    }
+    
+    .course-info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #2c3e50;
+    }
+    
+    .course-info p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    /* No Results Message */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .courses-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        padding: 15px 0;
+      }
+      
+      .main-content {
+        padding: 20px;
+      }
+      
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      header h1 {
+        margin-bottom: 15px;
+      }
+      
+      .search-bar {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .courses-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="student-info">
+      <div class="student-name">Liyla Nur</div>
+      <div class="student-role">STUDENT</div>
+    </div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> Profile</a></li>
+        <li class="active"><a href="#"><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li><a href="{% url 'exams_grades' %}"><i class="fa-solid fa-calendar-alt"></i> Exams &amp; Dates</a></li>
+      </ul>
+    </nav>
+    <div class="logout_">
+      <a href="{% url 'logout_' %}"><i class="fa-solid fa-sign-out-alt"></i> Logout Account</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header>
+      <h1>Courses</h1>
+      <!-- Search Bar -->
+      <div class="search-bar">
+        <input type="text" id="courseSearch" placeholder="Search your courses" />
+      </div>
+    </header>
+    
+    <div class="results-info" id="resultsInfo">4 courses found</div>
+
+    <!-- Course Cards Grid -->
+    <section class="courses-grid" id="coursesGrid">
+      <!-- Art History -->
+      <a class="course-card" href="art_history" data-title="Art History and Cultural Movements" data-instructor="Seyfullah Tumbili">
+        <img src="{% static 'images/art_history.jpg' %}" alt="Art History" />
+        <div class="course-info">
+          <h3>Art History and Cultural Movements</h3>
+          <p>Professor: Seyfullah Tumbili</p>
+        </div>
+      </a>
+      <!-- MicroEconomics -->
+      <a class="course-card" href="microeconomics" data-title="MicroEconomics" data-instructor="Eugene Harvard">
+        <img src="{% static 'images/micro_economics.jpg' %}" alt="MicroEconomics" />
+        <div class="course-info">
+          <h3>MicroEconomics</h3>
+          <p>Dr. Eugene Harvard</p>
+        </div>
+      </a>
+      <!-- Psychology -->
+      <a class="course-card" href="cognitive_psychology" data-title="Cognitive Psychology & Human Behaviour" data-instructor="Angela Merton">
+        <img src="{% static 'images/psychology.jpg' %}" alt="Psychology" />
+        <div class="course-info">
+          <h3>Cognitive Psychology &amp; Human Behaviour</h3>
+          <p>Dr. Angela Merton</p>
+        </div>
+      </a>
+      <!-- Azerbaijani Politics -->
+      <a class="course-card" href="azerbaijani_politics" data-title="Modern Azerbaijani Politics, Economy, and Global Influence" data-instructor="François Ingelmann">
+        <img src="{% static 'images/politics.jpg' %}" alt="Politics" />
+        <div class="course-info">
+          <h3>Modern Azerbaijani Politics, Economy, and Global Influence</h3>
+          <p>Dr. François Ingelmann</p>
+        </div>
+      </a>
+    </section>
+    
+    <!-- No Results Message (hidden by default) -->
+    <div class="no-results" id="noResults" style="display: none;">
+      <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 15px; opacity: 0.5;"></i>
+      <h3>No courses found</h3>
+      <p>Try adjusting your search or filter to find what you're looking for.</p>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const courseSearchInput = document.getElementById('courseSearch');
+      const coursesGrid = document.getElementById('coursesGrid');
+      const courseCards = coursesGrid.querySelectorAll('.course-card');
+      const resultsInfo = document.getElementById('resultsInfo');
+      const noResults = document.getElementById('noResults');
+      
+      // Initial count
+      updateResultsCount(courseCards.length);
+      
+      courseSearchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+        
+        courseCards.forEach(card => {
+          const title = card.getAttribute('data-title').toLowerCase();
+          const instructor = card.getAttribute('data-instructor').toLowerCase();
+          
+          // Search in both title and instructor name
+          if (title.includes(searchTerm) || instructor.includes(searchTerm)) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        
+        // Update results count
+        updateResultsCount(visibleCount);
+        
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm.length > 0) {
+          noResults.style.display = 'block';
+          coursesGrid.style.display = 'none';
+        } else {
+          noResults.style.display = 'none';
+          coursesGrid.style.display = 'grid';
+        }
+      });
+      
+      function updateResultsCount(count) {
+        resultsInfo.textContent = `${count} ${count === 1 ? 'course' : 'courses'} found`;
+      }
+    });
+  </script>
+</body>
+</html>

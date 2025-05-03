@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Exams & Grades</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar Styles */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      padding: 25px 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .student-info {
+      padding: 0 20px 25px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 25px;
+    }
+    .student-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .student-role {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      flex: 1;
+    }
+    .nav-links ul {
+      list-style: none;
+    }
+    .nav-links li a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-links li a:hover {
+      background-color: #f5f5f5;
+      color: #2c3e50;
+    }
+    .nav-links li.active a {
+      color: #3498db;
+      font-weight: 500;
+      background-color: #f0f7ff;
+      border-left: 3px solid #3498db;
+    }
+    .nav-links li a i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+    .logout_ {
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+    .logout_ a {
+      display: flex;
+      align-items: center;
+      color: #e74c3c;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .logout_ a i {
+      margin-right: 10px;
+    }
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 30px 40px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+    /* Exams & Grades Section Styles */
+    .exams-grades-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .course-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .course-box h2 {
+      margin: 0;
+      font-size: 16px;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .course-subtitle {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+    /* Exam List Styles */
+    .grade-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid #eee;
+    }
+    .grade-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+    .grade-item:last-child {
+      border-bottom: none;
+    }
+    .exam-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex: 1;
+    }
+    .exam-info .exam-name {
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .exam-info .exam-date {
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .exam-info .exam-status {
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .grade-badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+      text-decoration: none;
+      min-width: 35px;
+      text-align: center;
+    }
+    /* Grade badge color classes */
+    .grade-badge.BA { background: #27ae60; }
+    .grade-badge.AA { background: #2980b9; }
+    .grade-badge.DC { background: #e67e22; }
+    .grade-badge.FF { background: #c0392b; }
+    .grade-badge.upcoming {
+      background: #bdc3c7;
+      color: #444;
+    }
+    .view-all {
+      text-align: right;
+      margin-top: 10px;
+    }
+    .view-all a {
+      text-decoration: none;
+      font-size: 14px;
+      color: #2980b9;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        padding: 15px 0;
+      }
+      .main-content {
+        padding: 20px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      header h1 {
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="student-info">
+      <div class="student-name">Liyla Nur</div>
+      <div class="student-role">STUDENT</div>
+    </div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
+        </i> Profile</a></li>
+        <li><a href="{% url 'student_dashboard' %}"></a><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li><a href="{% url 'instructor' %}"></a><i class="fa-solid fa-book"></i> Exams & Dates</a></li>
+
+        <li class="active"><a href="#"><i class="fa-solid fa-calendar-alt"></i> Exams &amp; Dates</a></li>
+      </ul>
+    </nav>
+    <div class="logout_">
+      <a href="{% url 'logout_'%}"><i class="fa-solid fa-sign-out-alt"></i> Logout Account</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header>
+      <h1>Exams &amp; Grades</h1>
+    </header>
+    <div class="exams-grades-container">
+      <!-- Course Box 1 -->
+      <div class="course-box">
+        <h2>HISTORY-305</h2>
+        <p class="course-subtitle">Modern Azerbaijani Politics, Economy, and Global Influence</p>
+        <ul class="grade-list">
+          <li class="grade-item">
+            <div class="exam-info">
+              <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Final Exam</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
+            </div>
+            <span class="grade-badge BA">BA</span>
+          </li>
+          <li class="grade-item">
+            <div class="exam-info">
+              <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Research</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
+            </div>
+            <span class="grade-badge AA">AA</span>
+          </li>
+        </ul>
+      </div>
+      <!-- Course Box 2 -->
+      <div class="course-box">
+        <h2>FIN-204</h2>
+        <p class="course-subtitle">MicroEconomics</p>
+        <ul class="grade-list">
+          <li class="grade-item">
+            <div class="exam-info">
+              <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Final Exam</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
+            </div>
+            <span class="grade-badge DC">DC</span>
+          </li>
+          <li class="grade-item">
+            <div class="exam-info">
+              <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Midterm Exam</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
+            </div>
+            <span class="grade-badge AA">AA</span>
+          </li>
+          <li class="grade-item">
+            <div class="exam-info">
+              <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Resit Exam</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 20/5/24</span>
+              <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Upcoming</span>
+            </div>
+            <span class="grade-badge upcoming">--</span>
+          </li>
+        </ul>
+        <div class="view-all">
+          <a href="#">View All &raquo;</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

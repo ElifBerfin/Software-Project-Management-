@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Squidward Community College</title>
+  <link rel="stylesheet" href="{% static 'post/css/styles.css' %}" />
+</head>
+<body>
+
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+  <div class="login-container">
+    <div class="logo">
+      <img src="{% static 'images/logo.png' %}" alt="Squidward Community College Logo" />
+    </div>
+
+    <h2>Welcome To Squidward Community College Please LOGIN</h2>
+
+    <form id="login-form" method="post" action="{% url 'student_dashboard' %}">
+      {% csrf_token %}
+      
+      <div class="input-group">
+        <label for="username">Email</label>
+        <input type="text" id="username" name="username" placeholder="SCCNetID@sw.edu.tr" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      </div>
+
+      <div class="forgot-password">
+        <a href="{% url 'forgot_password' %}">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="login-btn">Enter</button>
+    </form>
+  </div>
+
+</body>
+</html>
+
+
