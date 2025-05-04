@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Squidward Community College</title>
+  <link rel="stylesheet" href="{% static 'post/styles.css' %}" />
+</head>
+<body>
+
+  <!-- Background container -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- Main login container -->
+  <div class="login-container">
+    <div class="logo">
+      <img src="{% static 'images/logo.png' %}" alt="Squidward Community College Logo" />
+    </div>
+
+    <h2>Welcome To Squidward Community College Please LOGIN</h2>
+
+    <!-- Login form -->
+    <form id="login-form" method="post" action="{% url 'student_dashboard' %}">
+      {% csrf_token %}
+      
+      <div class="input-group">
+        <label for="username">Email</label>
+        <input type="text" id="username" name="username" placeholder="SCCNetID@sw.edu.tr" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      </div>
+
+      <div class="forgot-password">
+        <a href="{% url 'forgot_password' %}">Forgot Password?</a>   <!-- bunu istersen ayarlayabiliriz -->
+      </div>
+
+      <button type="submit" class="login-btn">Enter</button>
+    </form>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("login-form");
+
+    // Eğer Enter'a basılırsa form gönderilmesin
+    loginForm.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+      }
+    });
+
+    loginForm.addEventListener("submit", function(event) {
+      // Burada normalde sunucuya veri gönderilir
+      // Şu an action="{% url 'student_dashboard' %}" olduğu için submit olduğunda
+      // Django bizi otomatik /student_dashboard/ sayfasına yönlendirecek
+    });
+  </script>
+
+</body>
+</html>
+
