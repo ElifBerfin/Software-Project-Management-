@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Help - Squidward Community College</title>
+  <link rel="stylesheet" href="{% static 'post/styles.css' %}" />
+
+</head>
+<body>
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+
+  <div class="login-container">
+    <div class="logo">
+      <img src="{% static 'images/logo.png' %}" alt="Squidward Community College Logo" />
+    </div>
+
+    <h2>For Questions and Help</h2>
+    <p>Email: <a href="mailto:IT@sq.edu.tr">IT@sq.edu.tr</a></p>
+    <p>Phone Number: +90 123 456 987</p>
+    <p>Address: South Campus, Room 69</p>
+    
+    <div class="help-link">
+      <a href="{% url 'index'%}">Back to Login</a>
+    </div>
+  </div>
+</body>
+</html>
