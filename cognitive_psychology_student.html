@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Art History & Cultural Movements</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'post/styles1.css' %}" />
+
+</head>
+<body>
+  <div style="margin: 20px;">
+    <a href="{% url 'student_dashboard' %}" style="text-decoration: none; color: #333;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <div class="course-detail-container">
+    <h1>Art History and Cultural Movements</h1>
+
+    <!-- Tab Navigation -->
+    <div class="course-tabs">
+      <button class="tab-btn active" data-target="tabContent">Content</button>
+      <button class="tab-btn" data-target="tabAnnouncement">Announcement</button>
+      <button class="tab-btn" data-target="tabGradebook">GradeBook</button>
+    </div>
+
+    <!-- Tab Panels -->
+    <!-- Content -->
+    <div class="tab-panel active" id="tabContent">
+      <h2>Course Content</h2>
+      <p>This course explores the evolution of art and cultural movements over the centuries, focusing on the interplay between visual arts, society, and cultural change.</p>
+      <h3>Course Grading</h3>
+      <p>Midterm: 50%<br>Final: 50%</p>
+      <h3>Instructor</h3>
+      <p><strong>Professor: Angelo Merton</strong><br>Email: <a href="mailto:angelomerton@scc.edu.tr">angelomerton@scc.edu.tr</a></p>
+    </div>
+
+    <!-- Announcement -->
+    <div class="tab-panel" id="tabAnnouncement">
+      <h2>Announcement</h2>
+      <div class="announcement-item">
+        <h4>New Museum Visit</h4>
+        <p>The Cognitive Psychology course will be holding an online session on memory research methods this Friday at 2:00 PM. Make sure to join for an in-depth discussion.</p>
+      </div>
+      <div class="announcement-item">
+        <h4>Reading Assignment</h4>
+        <p> Please read Chapters 2 and 3 from 'Cognitive Psychology: Understanding the Human Mind' .</p>
+      </div>
+    </div>
+
+    <!-- GradeBook -->
+    <div class="tab-panel" id="tabGradebook">
+      <h2>GradeBook</h2>
+      <table class="gradebook">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Midterm Exam</td>
+            <td>13/12/24</td>
+            <td>Graded</td>
+            <td><span style="background: #2980b9; color: #fff; padding: 3px 6px; border-radius: 4px;">AA</span></td>
+          </tr>
+          <tr>
+            <td>Final Exam</td>
+            <td>12/20/24</td>
+            <td>Pending</td>
+            <td>--</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Simple tab switching
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
