@@ -20,7 +20,7 @@ from django.urls import path
 from post import views
 
 urlpatterns = [
-    
+    path('student_dashboard/cognitive_psychology_student/', views.cognitive_psychology_student, name='student_dashboard_cognitive_psychology_student'),
     path('', views.index, name='home'),
     path('admin/', admin.site.urls),
     path('post_list/', views.post_list, name='post_list'),
