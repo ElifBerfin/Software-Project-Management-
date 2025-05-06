@@ -276,8 +276,13 @@
     <nav class="nav-links">
       <ul>
        <!-- <li><a href="{% url 'instructor' %}">Instructor Page</a>-->
-          <li><a href="{% url 'instructor_profile_ınstructor' %}">Instructor Profile</a></li>  <!-- Instructor profil linki -->
-
+        <li>
+          <a href="{% url 'instructor_profile_ınstructor' %}">
+            <i class="fa-solid fa-user" style="margin-right: 8px;"></i>Instructor Profile
+          </a>
+        </li>
+          <!-- Instructor profil linki -->
+            
         </li>
         <li class="active"><a href="#"><i class="fa-solid fa-book"></i> Courses</a></li>
         <li><a href="{% url 'instructor_exams'%}"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
