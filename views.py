@@ -1,6 +1,8 @@
 from django.shortcuts import render
 
-
+def cognitive_psychology_student(request):
+    return render(request,'post/cognitive_psychology_student.html')
+    
 def instructor_exams(request):
     return render(request,'post/instructor_exams.html')
 
