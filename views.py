@@ -1,14 +1,11 @@
 from django.shortcuts import render
 
 
-def cognitive_psychology_student(request):
-    return render(request,'post/cognitive_psychology_student.html')
-    
-def cognitive_psychology_student(request):
-    return render(request,'post/cognitive_psychology_student.html')
-    
 def instructor_exams(request):
     return render(request,'post/instructor_exams.html')
+
+def cognitive_psychology_student(request):
+    return render(request,'post/cognitive_psychology_student.html')
 
 def faculty_secretary_exams(request):
     return render(request, 'post/faculty_secretary_exams.html')
@@ -34,10 +31,10 @@ def faculty_secretary(request):
 def profile_secretary(request):
     return render(request,'post/profile_secretary.html')
 
-def instructor(request):
-    return render(request,'post/profile_instructor.html')
+def instructor_dashboard(request):
+    return render(request,'post/profile_ınstructor.html')
 
-def instructor(request):
+def instructor(request):   #onceki adı instructor
     return render(request,'post/instructor.html')
 
 def exams_grades(request):
@@ -82,9 +79,10 @@ def psychology(request):
 def profile_secretary(request):
     return render(request,'post/profile_secretary.html')
 
-
-def instructor_profile_instructor(request):
-    return render(request, 'post/profile_instructor.html')  # Instructor profili sayfası
+def instructor_profile_ınstructor(request):
+    return render(request, 'post/profile_ınstructor.html')  # Instructor profili sayfası
 
 def faculty_secretary_profile_secretary(request):
     return render(request, 'post/profile_secretary.html')  # Sekreter profili sayfası
+
+

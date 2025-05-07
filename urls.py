@@ -14,14 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# secretary/urls.py
 from django.contrib import admin
 from django.urls import path
 from post import views
 
 urlpatterns = [
-    path('student_dashboard/cognitive_psychology_student/', views.cognitive_psychology_student, name='student_dashboard_cognitive_psychology_student'),
-    path('student_dashboard/cognitive_psychology_student/', views.cognitive_psychology_student, name='student_dashboard_cognitive_psychology_student'),
+    
     path('', views.index, name='home'),
     path('admin/', admin.site.urls),
     path('post_list/', views.post_list, name='post_list'),
@@ -51,14 +49,15 @@ urlpatterns = [
     path('student_dashboard/cognitive_psychology/', views.cognitive_psychology, name='student_dashboard_cognitive_psychology'),
     path('instructor/psychology/', views.psychology, name='instructor_psychology'),
     path('instructor/cognitive_psychology/', views.cognitive_psychology, name='instructor_cognitive_psychology'),
-    path('instructor/profile_ınstructor/',views.profile_ınstructor,name='instructor_profile_ınstructor'),
+    path('instructor_dashboard/profile_ınstructor/',views.profile_ınstructor,name='instructor_profile_ınstructor'),
     path('faculty_secretary/profile_secretary/', views.faculty_secretary,name='faculty_secretary_profile_secretary'),
     path('faculty_secretary/psychology/', views.faculty_secretary, name='faculty_secretary_psychology'),
     path('faculty_secretary/cognitive_psychology/', views.faculty_secretary, name='faculty_secretary_cognitive_psychology'),
    # path('faculty_secretary/courses/', views.faculty_secretary_courses, name='faculty_secretary_courses'),
     path('faculty_secretary_courses/',views.faculty_secretary_courses,name='faculty_secretary_courses'),
     path('faculty_secretary_exams/', views.faculty_secretary_exams, name='faculty_secretary_exams'),
-    path('instructor_exams/',views.instructor_exams,name='instructor_exams')
-
+    path('instructor_exams/',views.instructor_exams,name='instructor_exams'),
+    path('cognitive_psychology_student/', views.cognitive_psychology_student, name='cognitive_psychology_student'),
+   path('student_dashboard/cognitive_psychology_student/', views.cognitive_psychology_student, name='student_dashboard_cognitive_psychology_student')
     
 ]

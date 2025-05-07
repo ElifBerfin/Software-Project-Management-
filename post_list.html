@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post List</title>
+  <link rel="stylesheet" href="{% static 'post/css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'post/css/styles1.css' %}">
+  <link rel="stylesheet" href="{% static 'post/css/stylesins.css' %}">
+  <script src="{% static 'post/js/scripts.js' %}"></script>
+</head>
+<body>
+
+  <h1>Post List</h1>
+  <div class="post-container">
+    {% for post in posts %}
+      <div class="post">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <p><em>{{ post.publishing_date }}</em></p>
+      </div>
+    {% endfor %}
+  </div>
+
+</body>
+</html>
+
+

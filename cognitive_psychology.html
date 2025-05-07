@@ -323,7 +323,7 @@
 <body>
 
   <div style="margin: 20px;">
-    <a href="{% url 'instructor' %}" style="text-decoration: none; color: #333;">
+    <a href="{% url 'instructor' %}" style="text-decoration: none; color: #3498db;">
       <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
     </a>
   </div>
@@ -485,6 +485,84 @@
         document.getElementById(btn.getAttribute('data-target')).classList.add('active');
       });
     });
+
+    // Announcement form submission
+    const announcementForm = document.getElementById('announcementForm');
+    announcementForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('announcementTitle').value;
+      const message = document.getElementById('announcementMessage').value;
+      
+      // Create new announcement element
+      const announcementList = document.querySelector('.announcement-list');
+      const newAnnouncement = document.createElement('div');
+      newAnnouncement.className = 'announcement-item';
+      newAnnouncement.innerHTML = `
+        <h4><i class="fas fa-bullhorn"></i> ${title}</h4>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+        <div class="announcement-meta">
+          <i class="far fa-clock"></i> Posted just now
+        </div>
+      `;
+      
+      // Insert the new announcement at the top of the list
+      announcementList.insertBefore(newAnnouncement, announcementList.firstChild);
+      
+      // Reset the form
+      announcementForm.reset();
+      
+      // Optional: notify the user
+      alert('Announcement published successfully!');
+    });
+
+    // Functions for editable sections
+    function toggleEdit(section) {
+      const display = document.getElementById(`${section}Display`);
+      const form = document.getElementById(`${section}EditForm`);
+      
+      display.style.display = 'none';
+      form.style.display = 'block';
+    }
+    
+    function cancelEdit(section) {
+      const display = document.getElementById(`${section}Display`);
+      const form = document.getElementById(`${section}EditForm`);
+      
+      display.style.display = 'block';
+      form.style.display = 'none';
+    }
+    
+    function saveGrading() {
+      const assignments = document.getElementById('assignmentsGrade').value;
+      const exams = document.getElementById('examsGrade').value;
+      
+      // Validate total equals 100%
+      if (parseInt(assignments) + parseInt(exams) !== 100) {
+        alert('The sum of percentages must equal 100%');
+        return;
+      }
+      
+      document.getElementById('gradingDisplay').innerHTML = 
+        `<p>Assignments: ${assignments}%<br>Exams: ${exams}%</p>`;
+      
+      cancelEdit('grading');
+    }
+    
+    function saveOfficeHours() {
+      const from = document.getElementById('hoursFrom').value;
+      const to = document.getElementById('hoursTo').value;
+      const days = document.getElementById('hoursDays').value;
+      
+      // Format time (trim seconds if needed)
+      const formattedFrom = from.substring(0, 5);
+      const formattedTo = to.substring(0, 5);
+      
+      document.getElementById('officeHoursDisplay').innerHTML = 
+        `<p>${formattedFrom} - ${formattedTo} (${days})</p>`;
+      
+      cancelEdit('officeHours');
+    }
   </script>
 
 </body>

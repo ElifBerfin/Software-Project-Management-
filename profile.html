@@ -184,7 +184,8 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="student-info">
-      <div class="student-name">Liyla Nur</div>
+      <div class="student-name" id="studentDisplayName">Liyla Nur</div>
+
       <div class="student-role">STUDENT</div>
     </div>
     <nav class="nav-links">
@@ -244,7 +245,18 @@
     </div>
   </main>
 
-  <script>
+  <script> 
+    // Sidebar'daki ismi güncelleme
+function updateSidebarName() {
+  const name = document.getElementById('name').value.trim();
+  const surname = document.getElementById('surname').value.trim();
+  document.getElementById('studentDisplayName').textContent = `${name} ${surname}`;
+}
+
+document.getElementById('name').addEventListener('input', updateSidebarName);
+document.getElementById('surname').addEventListener('input', updateSidebarName);
+
+
     document.getElementById('profileForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const name = document.getElementById('name').value;
@@ -264,3 +276,5 @@ Faculty: ${faculty}`);
   </script>
 </body>
 </html>
+
+

@@ -6,9 +6,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Art History & Cultural Movements</title>
+  <title>Cognitive Psychology</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-  <link rel="stylesheet" href="{% static 'post/styles1.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles1.css' %}" />
 
 </head>
 <body>
@@ -19,7 +19,7 @@
   </div>
 
   <div class="course-detail-container">
-    <h1>Art History and Cultural Movements</h1>
+    <h1>Cognitive Psychology</h1>
 
     <!-- Tab Navigation -->
     <div class="course-tabs">
@@ -83,7 +83,30 @@
   </div>
 
   <script>
-    // Simple tab switching
+     const gradeMap = {
+    'AA': 95,
+    'BA': 87,
+    'BB': 80,
+    'CB': 73,
+    'CC': 65,
+    'DC': 58,
+    'DD': 50,
+    'FD': 40,
+    'FF': 30
+  };
+
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const spans = document.querySelectorAll('td span');
+
+    spans.forEach(span => {
+      const text = span.textContent.trim();
+      if (gradeMap[text]) {
+        span.textContent = gradeMap[text]; 
+      }
+    });
+  });
+    // Tab switching
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanels = document.querySelectorAll('.tab-panel');
 

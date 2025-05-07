@@ -189,7 +189,12 @@
     <nav class="nav-links">
       <ul>
          <!--  <li class="active"><a href="{% url 'profile'%}"><i class="fa-solid fa-user"></i> Profile</a></li>-->
-        <li><a href="{% url 'instructor_profile_ınstructor' %}">Profile</a>
+         <li>
+          <a href="{% url 'instructor_profile_ınstructor' %}">
+              <i class="fas fa-user"></i> Profile
+          </a>
+      </li>
+      
         </li>
         <!--<li><a href="{% url 'exams_grades'%}"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>-->
 
@@ -246,8 +251,7 @@
   </main>
 
   <script>
-    // Handle the form submission (simulate updating profile)
-    document.getElementById('profileForm').addEventListener('submit', function(event) {
+   document.getElementById('profileForm').addEventListener('submit', function(event) {
       event.preventDefault();
       // Gather form values
       const firstname = document.getElementById('firstname').value;
@@ -268,3 +272,5 @@ Office: ${office}`);
   </script>
 </body>
 </html>
+
+
