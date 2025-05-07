@@ -190,7 +190,7 @@
       background: #bdc3c7;
       color: #444;
     }
-    .view-all {
+     /*.view-all {
       text-align: right;
       margin-top: 10px;
     }
@@ -198,7 +198,7 @@
       text-decoration: none;
       font-size: 14px;
       color: #2980b9;
-    }
+    } */
     /* Responsive adjustments */
     @media (max-width: 768px) {
       body {
@@ -231,12 +231,10 @@
     </div>
     <nav class="nav-links">
       <ul>
-        <li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a>
-        </i> Profile</a></li>
-        <li><a href="{% url 'student_dashboard' %}"></a><i class="fa-solid fa-book"></i> Courses</a></li>
-        <li><a href="{% url 'instructor' %}"></a><i class="fa-solid fa-book"></i> Exams & Dates</a></li>
-
-        <li class="active"><a href="#"><i class="fa-solid fa-calendar-alt"></i> Exams &amp; Dates</a></li>
+        <li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> Profile</a></li>
+        <li><a href="{% url 'student_dashboard' %}"><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li><a href="{% url 'instructor' %}"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
+        
       </ul>
     </nav>
     <div class="logout_">
@@ -258,7 +256,7 @@
           <li class="grade-item">
             <div class="exam-info">
               <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Final Exam</span>
-              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 10/5/24</span>
               <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
             </div>
             <span class="grade-badge BA">BA</span>
@@ -266,7 +264,7 @@
           <li class="grade-item">
             <div class="exam-info">
               <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Research</span>
-              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 10/5/24</span>
               <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
             </div>
             <span class="grade-badge AA">AA</span>
@@ -281,7 +279,7 @@
           <li class="grade-item">
             <div class="exam-info">
               <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Final Exam</span>
-              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 10/5/24</span>
               <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
             </div>
             <span class="grade-badge DC">DC</span>
@@ -289,7 +287,7 @@
           <li class="grade-item">
             <div class="exam-info">
               <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Midterm Exam</span>
-              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 10/5/24</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 10/5/24</span>
               <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Graded</span>
             </div>
             <span class="grade-badge AA">AA</span>
@@ -297,17 +295,44 @@
           <li class="grade-item">
             <div class="exam-info">
               <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Resit Exam</span>
-              <span class="exam-date"><i class="fa-solid fa-calendar"></i> 20/5/24</span>
+              <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 20/5/24</span>
               <span class="exam-status"><i class="fa-solid fa-info-circle"></i> Upcoming</span>
-            </div>
+            </div>   
             <span class="grade-badge upcoming">--</span>
           </li>
         </ul>
+        <!--
         <div class="view-all">
           <a href="#">View All &raquo;</a>
+        -->
         </div>
       </div>
     </div>
-  </main>
+  </main>   
+    <script>
+      function convertGradeToScore(letterGrade) {
+        const gradeMap = {
+          'AA': '95',
+          'BA': '87',
+          'BB': '82',
+          'CB': '77',
+          'CC': '72',
+          'DC': '67',
+          'DD': '62',
+          'FD': '55',
+          'FF': '40'
+        };
+        return gradeMap[letterGrade] || letterGrade;
+      }
+  
+      window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.grade-badge').forEach(span => {
+          const gradeText = span.textContent.trim();
+          const numericGrade = convertGradeToScore(gradeText);
+          span.textContent = numericGrade;
+        });
+      });
+    </script>
+  </body>
 </body>
 </html>
