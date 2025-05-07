@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>MicroEconomics</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-  <link rel="stylesheet" href="{% static 'post/styles1.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles1.css' %}" />
 
   <style>
     /* Optional: Style for colored badges if not using inline styles */
@@ -88,6 +88,31 @@
   </div>
 
   <script>
+    
+    const gradeMap = {
+    'AA': 95,
+    'BA': 87,
+    'BB': 80,
+    'CB': 73,
+    'CC': 65,
+    'DC': 58,
+    'DD': 50,
+    'FD': 40,
+    'FF': 30
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const gradeCells = document.querySelectorAll('.gradeCell');
+
+    gradeCells.forEach(cell => {
+      const grade = cell.textContent.trim();
+      if (gradeMap.hasOwnProperty(grade)) {
+        cell.textContent = gradeMap[grade]; 
+      }
+    });
+  });
+    
     // Tab switching logic
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanels = document.querySelectorAll('.tab-panel');
@@ -101,7 +126,7 @@
       });
     });
 
-    // Define color mapping for grades
+    
     const gradeColors = {
       "AA": "#2980b9",  // Blue
       "BA": "#27ae60",  // Green
@@ -114,10 +139,8 @@
       "FF": "#c0392b"   // Red
     };
 
-    // Eligible grades that should be clickable
     const eligibleGrades = ["FF", "FD", "DD", "DC"];
 
-    // Convert grade cells into colored badges/links
     document.addEventListener("DOMContentLoaded", function() {
       const gradeCells = document.querySelectorAll(".gradeCell");
       
@@ -127,13 +150,15 @@
 
         if (eligibleGrades.includes(gradeText)) {
           // If eligible, wrap the grade in a link
-          cell.innerHTML = `<a href="{% url 'final_exam'%}" class="eligible-grade" style="color: #fff; background: ${color}; padding: 3px 8px; border-radius: 4px; text-decoration: none;">${gradeText}</a>`;
+          cell.innerHTML = `<a href="{% url 'final_exam'%}" class="eligible-grade" style="color: #fff; background: #e67e22; padding: 3px 8px; border-radius: 4px; text-decoration: none;">${gradeText}</a>`;
         } else {
           // Otherwise, just display a colored badge
-          cell.innerHTML = `<span class="badge" style="color: #fff; background: ${color}; padding: 3px 8px; border-radius: 4px;">${gradeText}</span>`;
+          cell.innerHTML = `<span class="badge" style="color: #fff; background: #2980b9; padding: 3px 8px; border-radius: 4px;">${gradeText}</span>`;
         }
       });
     });
   </script>
 </body>
 </html>
+
+
