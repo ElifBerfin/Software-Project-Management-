@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Exams & Dates</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar Styles */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      padding: 25px 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    .secretary-info {
+      padding: 0 20px 25px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 25px;
+    }
+    .secretary-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .secretary-role {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      flex: 1;
+    }
+    .nav-links ul {
+      list-style: none;
+    }
+    .nav-links li a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-links li a:hover {
+      background-color: #f5f5f5;
+      color: #2c3e50;
+    }
+    .nav-links li.active a {
+      color: #3498db;
+      font-weight: 500;
+      background-color: #f0f7ff;
+      border-left: 3px solid #3498db;
+    }
+    .nav-links li a i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+    .logout {
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+    .logout a {
+      display: flex;
+      align-items: center;
+      color: #e74c3c;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .logout a i {
+      margin-right: 10px;
+    }
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 30px 40px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+    /* Exam Schedule Section Styles */
+    .exam-schedule-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .exam-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .exam-box h2 {
+      margin: 0;
+      font-size: 16px;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .exam-period {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+    /* Exam List Styles */
+    .exam-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid #eee;
+    }
+    .exam-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+    .exam-item:last-child {
+      border-bottom: none;
+    }
+    .subject-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+    }
+    .subject-name-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .subject-name {
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .exam-type-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #e3f2fd;
+      color: #1976d2;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .professor-info {
+      color: #777;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+    }
+    .exam-date {
+      padding: 5px 10px;
+      border-radius: 4px;
+      background: #fff8e1;
+      color: #e67e22;
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 140px;
+      text-align: center;
+    }
+    .view-all {
+      text-align: right;
+      margin-top: 10px;
+    }
+    .view-all a {
+      text-decoration: none;
+      font-size: 14px;
+      color: #2980b9;
+    }
+    
+    
+    /* Add this new style for the delete button */
+    .delete-exam {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+    
+    .delete-exam:hover {
+      background: #c0392b;
+    }
+    
+    .exam-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        padding: 15px 0;
+      }
+      .main-content {
+        padding: 20px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      header h1 {
+        margin-bottom: 15px;
+      }
+      .exam-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .exam-date {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="secretary-info">
+      <div class="secretary-name">Sarah Johnson</div>
+      <div class="secretary-role">Faculty Secretary</div>
+    </div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+        <li><a href="FacultySecretary.html"><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li class="active"><a href="#"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
+      </ul>
+    </nav>
+    <div class="logout">
+      <a href="logout.html"><i class="fa-solid fa-sign-out-alt"></i> Logout Account</a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header>
+      <h1>Exams & Dates</h1>
+      <button class="schedule-button" onclick="window.location.href='FacultySecretary.html'">Schedule Exam</button>
+    </header>
+    <div class="exam-schedule-container" id="examContainer">
+      <div class="exam-box">
+        <h2>Upcoming Exams</h2>
+        <p class="exam-period">June - July 2025 Examination Period</p>
+        <ul class="exam-list" id="upcomingExams">
+          <li class="exam-item" id="loading">Loading exams...</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    async function fetchExams() {
+      try {
+        const response = await fetch('http://localhost:3000/api/exams');
+        const exams = await response.json();
+        const upcomingExamsList = document.getElementById('upcomingExams');
+        upcomingExamsList.innerHTML = '';
+
+        if (exams.length === 0) {
+          upcomingExamsList.innerHTML = '<li class="exam-item">No exams scheduled</li>';
+          return;
+        }
+
+        exams.forEach(exam => {
+          const examItem = document.createElement('li');
+          examItem.className = 'exam-item';
+          const date = new Date(exam.examDate).toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          });
+          const time = exam.examTime.slice(0, 5);
+          const instructorName = exam.User ? exam.User.email.split('@')[0] : 'Unknown Instructor';
+          examItem.innerHTML = `
+            <div class="subject-info">
+              <div class="subject-name-row">
+                <span class="subject-name"><i class="fa-solid fa-book"></i> ${exam.courseName}</span>
+                <span class="exam-type-badge">${exam.examType}</span>
+              </div>
+              <span class="professor-info"><i class="fa-solid fa-user-tie"></i> ${instructorName}</span>
+            </div>
+            <div class="exam-actions">
+              <span class="exam-date">${date} ${time}</span>
+              <button class="delete-exam" data-id="${exam.id}">
+                <i class="fas fa-trash-alt"></i> Delete
+              </button>
+            </div>
+          `;
+          upcomingExamsList.appendChild(examItem);
+        });
+
+        document.querySelectorAll('.delete-exam').forEach(button => {
+          button.addEventListener('click', async function() {
+            const examId = this.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this exam?')) {
+              try {
+                const response = await fetch(`http://localhost:3000/api/exams/delete/${examId}`, {
+                  method: 'DELETE',
+                });
+                const data = await response.json();
+                if (data.success) {
+                  fetchExams();
+                } else {
+                  alert('Failed to delete exam: ' + data.message);
+                }
+              } catch (error) {
+                console.error('Error deleting exam:', error);
+                alert('Error deleting exam.');
+              }
+            }
+          });
+        });
+      } catch (error) {
+        console.error('Error fetching exams:', error);
+        document.getElementById('upcomingExams').innerHTML = '<li class="exam-item">Error loading exams.</li>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchExams);
+  </script>
+</body>
+</html>

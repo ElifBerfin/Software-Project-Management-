@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Final Exam</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles1.css" />
+  <style>
+    .exam-page { 
+      max-width: 600px; 
+      margin: 40px auto; 
+      background: #fff; 
+      border-radius: 8px; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+      padding: 20px; 
+      position: relative; 
+    }
+    .close-btn { 
+      position: absolute; 
+      top: 20px; 
+      right: 20px; 
+      font-size: 24px; 
+      cursor: pointer; 
+    }
+    .resit-option { 
+      background: #e8fce8; 
+      border: 1px solid #b0e6b0;
+      padding: 20px; 
+      border-radius: 6px; 
+      text-align: center; 
+      margin-top: 30px;
+    }
+    .resit-button { 
+      background: #27ae60; 
+      color: #fff; 
+      padding: 12px 25px; 
+      border: none; 
+      border-radius: 5px; 
+      cursor: pointer; 
+      margin-top: 15px;
+      font-size: 16px;
+    }
+    .not-eligible { 
+      background: #ccc !important; 
+      cursor: not-allowed; 
+    }
+    .exam-header {
+      margin-bottom: 10px;
+    }
+    .exam-header h2 {
+      margin-bottom: 5px;
+    }
+    .exam-details {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      font-size: 15px;
+      color: #666;
+      padding: 8px 0;
+    }
+    .detail-item i {
+      font-size: 20px;
+      min-width: 30px;
+    }
+    .resit-option p {
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div style="margin: 20px;">
+    <a href="student_dashboard.html" style="text-decoration: none; color: #333;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <div class="exam-page">
+    <span class="close-btn" onclick="window.location.href='student_dashboard.html'">&times;</span>
+    <div class="exam-header">
+      <h2>Final Exam</h2>
+      <p id="courseName">Loading course...</p>
+    </div>
+
+    <div class="exam-details">
+      <div class="detail-item">
+        <i class="fa-solid fa-calendar"></i>
+        <span>10/5/24, 11:00</span>
+      </div>
+      <div class="detail-item">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Main Block, C class</span>
+      </div>
+      <div class="detail-item">
+        <i class="fa-solid fa-file-alt"></i>
+        <span>Multiple choice, 20 questions</span>
+      </div>
+      <div class="detail-item">
+        <i class="fa-solid fa-ban"></i>
+        <span>NOT ALLOWED: ANY CALCULATOR</span>
+      </div>
+    </div>
+
+    <div class="resit-option" id="resitOption">
+      <p>You are eligible for a resit exam. Click below to proceed.</p>
+      <button class="resit-button" id="resitBtn">TAKE RESIT EXAM</button>
+    </div>
+  </div>
+
+  <script>
+    // Get course name from URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseName = urlParams.get('course') || 'Course';
+    
+    // Set the course name in the page
+    document.getElementById('courseName').textContent = courseName;
+    document.title = `Final Exam - ${courseName}`;
+
+    const eligibleGrades = ["FF", "FD", "DD", "DC"];
+    const currentGrade = "DD"; // This would come from your backend
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if(!eligibleGrades.includes(currentGrade)) {
+        document.getElementById("resitOption").innerHTML = `
+          <p style="color: #c0392b; margin: 20px 0">You are not eligible for a resit exam.</p>
+        `;
+      }
+    });
+
+    document.getElementById("resitBtn")?.addEventListener("click", () => {
+      alert("Resit exam request registered!");
+      document.getElementById("resitBtn").disabled = true;
+      document.getElementById("resitBtn").textContent = "Request Sent";
+    });
+  </script>
+</body>
+</html>
