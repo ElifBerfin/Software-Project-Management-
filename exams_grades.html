@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Exams & Dates</title>
+  <!-- Font Awesome & CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      min-height: 100vh;
+      color: #333;
+    }
+    /* Sidebar Styles */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      padding: 25px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .instructor-info {
+      width: 100%;
+      padding: 0 20px 25px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 25px;
+    }
+    .instructor-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+    .instructor-role {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      flex: 1;
+      width: 100%;
+    }
+    .nav-links ul {
+      list-style: none;
+    }
+    .nav-links li a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-links li a:hover {
+      background-color: #f5f5f5;
+      color: #2c3e50;
+    }
+    .nav-links li.active a {
+      color: #3498db;
+      font-weight: 500;
+      background-color: #f0f7ff;
+      border-left: 3px solid #3498db;
+    }
+    .nav-links li a i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+    .logout {
+      padding: 20px;
+      border-top: 1px solid #eee;
+      width: 100%;
+    }
+    .logout a {
+      display: flex;
+      align-items: center;
+      color: #e74c3c;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .logout a i {
+      margin-right: 10px;
+    }
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 30px 40px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+    .header-actions {
+      display: flex;
+      gap: 15px;
+    }
+    .header-actions a, .header-actions button {
+      text-decoration: none;
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      border: none;
+      cursor: pointer;
+    }
+    .header-actions a:hover, .header-actions button:hover {
+      background-color: #2c3e50;
+    }
+    .header-actions a i, .header-actions button i {
+      margin-right: 8px;
+    }
+    /* Exams Container */
+    .exams-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .course-panel {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 20px 25px;
+    }
+    .course-panel h2 {
+      font-size: 1.2rem;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    /* Exam Rows */
+    .exam-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      padding: 15px;
+    }
+    .exam-icon {
+      font-size: 1.2rem;
+      margin-right: 10px;
+      color: #2c3e50;
+    }
+    .exam-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .exam-title {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .exam-date {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .exam-status {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .status-badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      text-transform: capitalize;
+      font-weight: 500;
+      display: inline-block;
+      color: #fff;
+      background-color: #999; /* Default color */
+    }
+    .status-badge.graded {
+      background-color: #27ae60; /* Green */
+    }
+    .status-badge.not-graded {
+      background-color: #e67e22; /* Orange */
+    }
+    .detail-btn {
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background-color 0.2s;
+    }
+    .detail-btn:hover {
+      background-color: #2c3e50;
+    }
+    
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      width: 500px;
+      height: 500px;
+      max-width: 90%;
+      max-height: 90vh;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      overflow-y: auto;
+    }
+    .modal-header {
+      margin-bottom: 20px;
+    }
+    .modal-header h2 {
+      color: #2c3e50;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    .form-group select, .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 1em;
+    }
+    .file-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .file-upload input[type="file"] {
+      display: none;
+    }
+    .file-upload-label {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .file-upload-label:hover {
+      background-color: #2980b9;
+    }
+    .file-name {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 30px;
+    }
+    .modal-footer button {
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .cancel-btn {
+      background-color: #f5f5f5;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+    .cancel-btn:hover {
+      background-color: #e0e0e0;
+    }
+    .submit-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+    }
+    .submit-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    /* Student List Modal */
+    .student-list-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+    .student-list-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 700px;
+      max-width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .student-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .student-list-header h2 {
+      color: #2c3e50;
+      font-size: 1.5rem;
+    }
+    .student-list-search {
+      margin-bottom: 15px;
+    }
+    .student-list-search input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .student-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .student-table th, .student-table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    .student-table th {
+      background-color: #f5f5f5;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    .student-table tr:hover {
+      background-color: #f9f9f9;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    /* Warning Section */
+    .warning-section {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #fff8e1;
+      border-left: 4px solid #ffc107;
+      border-radius: 4px;
+    }
+    .warning-section h3 {
+      color: #d32f2f;
+      margin-bottom: 10px;
+    }
+    .confirmation-checkbox {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .confirmation-checkbox input {
+      margin-right: 10px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+      }
+      .main-content {
+        padding: 20px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .student-table {
+        display: block;
+        overflow-x: auto;
+      }
+      .modal-content {
+        height: auto;
+        min-height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="instructor-info">
+      <div class="instructor-name">Angela Merton</div>
+      <div class="instructor-role">Instructor</div>
+    </div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+        <li><a href="instructor.html"><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li class="active"><a href="#"><i class="fa-solid fa-file-pen"></i> Exams & Grades</a></li>
+        <li><a href="instructor_exams.html"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
+      </ul>
+    </nav>
+    <div class="logout">
+      <a href="logout.html"><i class="fa-solid fa-sign-out-alt"></i> Logout Account</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header>
+      <h1>Exams &amp; Dates</h1>
+      <div class="header-actions">
+        <button id="announceGradesBtn"><i class="fa-solid fa-bullhorn"></i> Announce Grades</button>
+        <button id="createExamBtn"><i class="fa-solid fa-plus-circle"></i> Create Exam</button>
+      </div>
+    </header>
+
+    <!-- Exams Container -->
+    <div class="exams-container">
+      <!-- Course Panel: Cognitive Psychology & Human Behaviour -->
+      <div class="course-panel">
+        <h2>Cognitive Psychology &amp; Human Behaviour</h2>
+        <!-- Example 1: Final Exam -->
+        <div class="exam-row">
+          <i class="fa-solid fa-file-lines exam-icon"></i>
+          <div class="exam-info">
+            <div class="exam-title">Final Exam</div>
+            <div class="exam-date">10/25/2024</div>
+          </div>
+          <div class="exam-status">
+            <span class="status-badge not-graded">Not Graded</span>
+            <button class="detail-btn">Details</button>
+          </div>
+        </div>
+        <!-- Example 2: Research -->
+        <div class="exam-row">
+          <i class="fa-solid fa-file-lines exam-icon"></i>
+          <div class="exam-info">
+            <div class="exam-title">Research</div>
+            <div class="exam-date">10/25/2024</div>
+          </div>
+          <div class="exam-status">
+            <span class="status-badge graded">Graded</span>
+            <button class="detail-btn">Details</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Panel: Psychology -->
+      <div class="course-panel">
+        <h2>Psychology</h2>
+        <!-- Example 1: Midterm Exam -->
+        <div class="exam-row">
+          <i class="fa-solid fa-file-lines exam-icon"></i>
+          <div class="exam-info">
+            <div class="exam-title">Midterm Exam</div>
+            <div class="exam-date">11/05/2024</div>
+          </div>
+          <div class="exam-status">
+            <span class="status-badge graded">Graded</span>
+            <button class="detail-btn">Details</button>
+          </div>
+        </div>
+        <!-- Example 2: Final Exam -->
+        <div class="exam-row">
+          <i class="fa-solid fa-file-lines exam-icon"></i>
+          <div class="exam-info">
+            <div class="exam-title">Final Exam</div>
+            <div class="exam-date">11/25/2024</div>
+          </div>
+          <div class="exam-status">
+            <span class="status-badge not-graded">Not Graded</span>
+            <button class="detail-btn">Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Announce Grades Modal -->
+  <div id="announceGradesModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Announce Grades</h2>
+      </div>
+      <form id="announceGradesForm">
+        <div class="form-group">
+          <label for="course">Course</label>
+          <select id="course" required>
+            <option value="" selected disabled>Select an Option</option>
+            <option value="HSTORY-303">Art History and Cultural Movements (HSTORY-303)</option>
+            <option value="PSYCH-101">Cognitive Psychology & Human Behaviour (PSYCH-101)</option>
+            <option value="PSYCH-202">Psychology (PSYCH-202)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exam">Exam</label>
+          <select id="exam" required>
+            <option value="" selected disabled>Select an Option</option>
+            <option value="final">Final Exam</option>
+            <option value="midterm">Midterm Exam</option>
+            <option value="resit">Resit Exam</option>
+            <option value="research">Research</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>CSV file</label>
+          <div class="file-upload">
+            <label for="csvFile" class="file-upload-label">
+              <i class="fa-solid fa-upload"></i> Upload
+            </label>
+            <input type="file" id="csvFile" accept=".csv" required>
+            <span id="fileName" class="file-name">No file chosen</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" id="cancelAnnounceBtn">Cancel</button>
+          <button type="submit" class="submit-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Exam Modal -->
+  <div id="createExamModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Create Exam</h2>
+      </div>
+      <form id="createExamForm">
+        <div class="form-group">
+          <label for="createCourse">Course</label>
+          <select id="createCourse" required>
+            <option value="" selected disabled>Select an Option</option>
+            <option value="HSTORY-303">Art History and Cultural Movements (HSTORY-303)</option>
+            <option value="PSYCH-101">Cognitive Psychology & Human Behaviour (PSYCH-101)</option>
+            <option value="PSYCH-202">Psychology (PSYCH-202)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="examName">Exam</label>
+          <input type="text" id="examName" placeholder="e.g. Resit Exam" required>
+        </div>
+        <div class="form-group">
+          <label>Students</label>
+          <button type="button" id="viewStudentsBtn" class="file-upload-label" style="width: auto;">
+            <i class="fa-solid fa-users"></i> See the list
+          </button>
+        </div>
+        <div class="form-group">
+          <label for="examRoom">Exam Room</label>
+          <input type="text" id="examRoom" placeholder="Type or Choose from List" list="roomList" required>
+          <datalist id="roomList">
+            <option value="Nermin Terhan">
+            <option value="Lecture Hall A">
+            <option value="Room 101">
+            <option value="Room 202">
+            <option value="Computer Lab 1">
+          </datalist>
+        </div>
+        <div class="form-group">
+          <label for="examType">Exam Type</label>
+          <input type="text" id="examType" placeholder="e.g. multiple, 20 choice" required>
+        </div>
+        <div class="form-group">
+          <label for="examRules">Rules</label>
+          <textarea id="examRules" rows="3"></textarea>
+        </div>
+        
+        <div class="warning-section">
+          <h3>WARNING!</h3>
+          <p>Please be sure to write everything correctly. After submitting you won't able to make any changes!</p>
+          <div class="confirmation-checkbox">
+            <input type="checkbox" id="confirmCheckbox" required>
+            <label for="confirmCheckbox">I am sure</label>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" id="cancelCreateBtn">Cancel</button>
+          <button type="submit" class="submit-btn">Send</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Student List Modal -->
+  <div id="studentListModal" class="student-list-modal">
+    <div class="student-list-content">
+      <div class="student-list-header">
+        <h2>Student List</h2>
+        <button class="close-btn" id="closeStudentListBtn">&times;</button>
+      </div>
+      <div class="student-list-search">
+        <input type="text" placeholder="Search..." id="studentSearch">
+      </div>
+      <table class="student-table">
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>ID</th>
+            <th>GRADE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Karl Marx</td>
+            <td>2112740456</td>
+            <td>FF</td>
+          </tr>
+          <tr>
+            <td>Vladimir Lenin</td>
+            <td>2411420030</td>
+            <td>DC</td>
+          </tr>
+          <tr>
+            <td>Sabri Gündüz</td>
+            <td>2012120045</td>
+            <td>FD</td>
+          </tr>
+          <tr>
+            <td>Fatma Ülker</td>
+            <td>2314450078</td>
+            <td>CC</td>
+          </tr>
+          <tr>
+            <td>Irem Tezcan</td>
+            <td>2311340436</td>
+            <td>CC</td>
+          </tr>
+          <tr>
+            <td>Naz İşözen</td>
+            <td>1916850742</td>
+            <td>CC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Modal functionality
+    const announceGradesBtn = document.getElementById('announceGradesBtn');
+    const createExamBtn = document.getElementById('createExamBtn');
+    const announceGradesModal = document.getElementById('announceGradesModal');
+    const createExamModal = document.getElementById('createExamModal');
+    const studentListModal = document.getElementById('studentListModal');
+    const cancelAnnounceBtn = document.getElementById('cancelAnnounceBtn');
+    const cancelCreateBtn = document.getElementById('cancelCreateBtn');
+    const closeStudentListBtn = document.getElementById('closeStudentListBtn');
+    const viewStudentsBtn = document.getElementById('viewStudentsBtn');
+    const csvFileInput = document.getElementById('csvFile');
+    const fileNameSpan = document.getElementById('fileName');
+    const studentSearch = document.getElementById('studentSearch');
+    const studentTable = document.querySelector('.student-table tbody');
+    
+    // Open Announce Grades modal
+    announceGradesBtn.addEventListener('click', () => {
+      announceGradesModal.style.display = 'flex';
+    });
+    
+    // Open Create Exam modal
+    createExamBtn.addEventListener('click', () => {
+      createExamModal.style.display = 'flex';
+    });
+    
+    // Open Student List modal
+    viewStudentsBtn.addEventListener('click', () => {
+      studentListModal.style.display = 'flex';
+    });
+    
+    // Close Announce Grades modal
+    cancelAnnounceBtn.addEventListener('click', () => {
+      announceGradesModal.style.display = 'none';
+    });
+    
+    // Close Create Exam modal
+    cancelCreateBtn.addEventListener('click', () => {
+      createExamModal.style.display = 'none';
+    });
+    
+    // Close Student List modal
+    closeStudentListBtn.addEventListener('click', () => {
+      studentListModal.style.display = 'none';
+    });
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', (event) => {
+      if (event.target === announceGradesModal) {
+        announceGradesModal.style.display = 'none';
+      }
+      if (event.target === createExamModal) {
+        createExamModal.style.display = 'none';
+      }
+      if (event.target === studentListModal) {
+        studentListModal.style.display = 'none';
+      }
+    });
+    
+    // Update file name display
+    csvFileInput.addEventListener('change', () => {
+      if (csvFileInput.files.length > 0) {
+        fileNameSpan.textContent = csvFileInput.files[0].name;
+      } else {
+        fileNameSpan.textContent = 'No file chosen';
+      }
+    });
+    
+    // Form submission for Announce Grades
+    document.getElementById('announceGradesForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would typically handle the form submission (AJAX call, etc.)
+      alert('Grades announced successfully!');
+      announceGradesModal.style.display = 'none';
+    });
+    
+    // Form submission for Create Exam
+    document.getElementById('createExamForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would typically handle the form submission (AJAX call, etc.)
+      alert('Exam created successfully!');
+      createExamModal.style.display = 'none';
+    });
+    
+    // Update exam options based on selected course
+    document.getElementById('course').addEventListener('change', function() {
+      const examSelect = document.getElementById('exam');
+      examSelect.innerHTML = '<option value="" selected disabled>Select an Option</option>';
+      
+      if (this.value === 'HSTORY-303') {
+        addExamOption(examSelect, 'resit', 'Resit Exam');
+        addExamOption(examSelect, 'final', 'Final Exam');
+      } else if (this.value === 'PSYCH-101') {
+        addExamOption(examSelect, 'final', 'Final Exam');
+        addExamOption(examSelect, 'research', 'Research');
+      } else if (this.value === 'PSYCH-202') {
+        addExamOption(examSelect, 'midterm', 'Midterm Exam');
+        addExamOption(examSelect, 'final', 'Final Exam');
+      }
+    });
+    
+    // Student search functionality
+    studentSearch.addEventListener('input', () => {
+      const searchTerm = studentSearch.value.toLowerCase();
+      const rows = studentTable.querySelectorAll('tr');
+      
+      rows.forEach(row => {
+        const name = row.cells[0].textContent.toLowerCase();
+        const id = row.cells[1].textContent.toLowerCase();
+        const grade = row.cells[2].textContent.toLowerCase();
+        
+        if (name.includes(searchTerm) || id.includes(searchTerm) || grade.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+    
+    function addExamOption(selectElement, value, text) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = text;
+      selectElement.appendChild(option);
+    }
+  </script>
+</body>
+</html>

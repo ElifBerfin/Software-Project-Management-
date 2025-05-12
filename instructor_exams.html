@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Instructor Dashboard</title>
+  <!-- Font Awesome & CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    /* Sidebar Styles */
+    .sidebar {
+      width: 240px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      padding: 25px 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .instructor-info {
+      padding: 0 20px 25px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 25px;
+    }
+    
+    .instructor-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .instructor-role {
+      font-size: 0.8rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .nav-links {
+      flex: 1;
+    }
+    
+    .nav-links ul {
+      list-style: none;
+    }
+    
+    .nav-links li a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .nav-links li a:hover {
+      background-color: #f5f5f5;
+      color: #2c3e50;
+    }
+    
+    .nav-links li.active a {
+      color: #3498db;
+      font-weight: 500;
+      background-color: #f0f7ff;
+      border-left: 3px solid #3498db;
+    }
+    
+    .nav-links li a i {
+      margin-right: 12px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .logout {
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+    
+    .logout a {
+      display: flex;
+      align-items: center;
+      color: #e74c3c;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    
+    .logout a i {
+      margin-right: 10px;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 30px 40px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    header h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+    
+    .search-bar {
+      position: relative;
+      width: 300px;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 10px 15px 10px 40px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    
+    .search-bar input:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    
+    .search-bar::before {
+      content: "\f002";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+    
+    /* Exam Schedule Section Styles (from secretary page) */
+    .exam-schedule-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .exam-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .exam-box h2 {
+      margin: 0;
+      font-size: 16px;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    
+    .exam-period {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+    
+    .exam-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid #eee;
+    }
+    
+    .exam-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+    
+    .exam-item:last-child {
+      border-bottom: none;
+    }
+    
+    .subject-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+    }
+    
+    .subject-name-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .subject-name {
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .exam-type-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #e3f2fd;
+      color: #1976d2;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .professor-info {
+      color: #777;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+    }
+    
+    .exam-date {
+      padding: 5px 10px;
+      border-radius: 4px;
+      background: #fff8e1;
+      color: #e67e22;
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 140px;
+      text-align: center;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        padding: 15px 0;
+      }
+      .main-content {
+        padding: 20px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      header h1 {
+        margin-bottom: 15px;
+      }
+      .exam-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .exam-date {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="instructor-info">
+      <div class="instructor-name">Angela Merton</div>
+      <div class="instructor-role">Instructor</div>
+    </div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+        <li><a href="instructor.html"><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li><a href="exams_grades.html"><i class="fa-solid fa-file-pen"></i> Exams & Grades</a></li>
+        <li class="active"><a href="#"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
+      </ul>
+    </nav>
+    <div class="logout">
+      <a href="../index.html"><i class="fa-solid fa-sign-out-alt"></i> Logout Account</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header>
+      <h1>Final and Resit Exams Dates</h1>
+      <div class="search-bar">
+        <input type="text" id="courseSearch" placeholder="Search courses" />
+      </div>
+    </header>
+
+    <div class="exam-schedule-container" id="examContainer">
+      <div class="exam-box">
+        <h2>Upcoming Exams</h2>
+        <p class="exam-period">June - July 2025 Examination Period</p>
+        <ul class="exam-list" id="upcomingExams">
+          <!-- Exams will be loaded here dynamically -->
+          <li class="exam-item" id="loading">Loading exams...</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Fetch exams from the backend
+    async function fetchExams() {
+      try {
+        const response = await fetch('http://localhost:3000/api/exams');
+        const exams = await response.json();
+        const upcomingExamsList = document.getElementById('upcomingExams');
+        upcomingExamsList.innerHTML = ''; // Clear loading message
+
+        if (exams.length === 0) {
+          upcomingExamsList.innerHTML = '<li class="exam-item">No exams scheduled</li>';
+          return;
+        }
+
+        // Filter exams for the current instructor (assuming email matches)
+        const instructorEmail = 'instructor@sw.edu.tr'; // Replace with dynamic user session data later
+        const instructorExams = exams.filter(exam => {
+          return exam.User && exam.User.email === instructorEmail;
+        });
+
+        if (instructorExams.length === 0) {
+          upcomingExamsList.innerHTML = '<li class="exam-item">No exams scheduled for this instructor</li>';
+          return;
+        }
+
+        instructorExams.forEach(exam => {
+          const examItem = document.createElement('li');
+          examItem.className = 'exam-item';
+          const date = new Date(exam.examDate).toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          });
+          const time = exam.examTime.slice(0, 5); // Extract HH:MM
+          examItem.innerHTML = `
+            <div class="subject-info">
+              <div class="subject-name-row">
+                <span class="subject-name"><i class="fa-solid fa-book"></i> ${exam.courseName}</span>
+                <span class="exam-type-badge">${exam.examType}</span>
+              </div>
+              <span class="professor-info"><i class="fa-solid fa-user-tie"></i> Dr. Angela Merton</span>
+            </div>
+            <div class="exam-date">${date} ${time}</div>
+          `;
+          upcomingExamsList.appendChild(examItem);
+        });
+      } catch (error) {
+        console.error('Error fetching exams:', error);
+        document.getElementById('upcomingExams').innerHTML = '<li class="exam-item">Error loading exams.</li>';
+      }
+    }
+
+    // Search functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const courseSearchInput = document.getElementById('courseSearch');
+      const examItems = document.querySelectorAll('.exam-item');
+      const noResults = document.createElement('li');
+      noResults.className = 'exam-item';
+      noResults.textContent = 'No courses found';
+      const upcomingExamsList = document.getElementById('upcomingExams');
+
+      courseSearchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        examItems.forEach(item => {
+          const title = item.querySelector('.subject-name')?.textContent.toLowerCase() || '';
+          if (title.includes(searchTerm) || searchTerm === '') {
+            item.style.display = 'flex';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        if (visibleCount === 0 && searchTerm.length > 0 && !upcomingExamsList.contains(noResults)) {
+          upcomingExamsList.appendChild(noResults);
+        } else if (visibleCount > 0 || searchTerm.length === 0) {
+          if (upcomingExamsList.contains(noResults)) {
+            upcomingExamsList.removeChild(noResults);
+          }
+        }
+      });
+
+      // Fetch exams when the page loads
+      fetchExams();
+    });
+  </script>
+</body>
+</html>

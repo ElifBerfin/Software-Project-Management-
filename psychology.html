@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Psychology</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    /* Back Link */
+    .back-link {
+      display: inline-block;
+      margin: 20px;
+      padding: 8px 15px;
+      text-decoration: none;
+      color: #3498db;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    
+    .back-link:hover {
+      background-color: #f0f7ff;
+    }
+    
+    .back-link i {
+      margin-right: 8px;
+    }
+    
+    /* Course Container */
+    .course-detail-container {
+      max-width: 1000px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    
+    /* Course Header */
+    .course-header {
+      padding: 25px 30px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .course-header h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    /* Tabs Navigation */
+    .course-tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+    
+    .course-tabs .tab-btn {
+      background: none;
+      border: none;
+      padding: 15px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    
+    .course-tabs .tab-btn:hover {
+      color: #3498db;
+      background-color: #f0f7ff;
+    }
+    
+    .course-tabs .tab-btn.active {
+      color: #3498db;
+      font-weight: 500;
+      border-bottom: 3px solid #3498db;
+      background-color: #fff;
+    }
+    
+    /* Tab Panels */
+    .tab-panel {
+      display: none;
+      padding: 25px 30px;
+    }
+    
+    .tab-panel.active {
+      display: block;
+    }
+    
+    /* Content Tab */
+    .tab-content h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+    
+    .tab-content h3 {
+      color: #2c3e50;
+      margin: 20px 0 10px;
+      font-size: 1.2rem;
+    }
+    
+    .tab-content p {
+      margin-bottom: 15px;
+    }
+    
+    /* Announcements Tab */
+    .announcement-list {
+      margin-top: 20px;
+    }
+    
+    .announcement-item {
+      padding: 20px;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+    
+    .announcement-item h4 {
+      font-size: 1.1rem;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .announcement-item h4 i {
+      margin-right: 10px;
+      color: #3498db;
+    }
+    
+    .announcement-item p {
+      color: #555;
+      margin-bottom: 15px;
+    }
+    
+    .announcement-meta {
+      font-size: 0.85rem;
+      color: #888;
+      display: flex;
+      align-items: center;
+    }
+    
+    .announcement-meta i {
+      margin-right: 5px;
+    }
+    
+    /* New Announcement Form */
+    .new-announcement {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 6px;
+      margin-top: 30px;
+    }
+    
+    .new-announcement h3 {
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    
+    .form-group textarea {
+      min-height: 100px;
+    }
+    
+    .file-upload {
+      margin-top: 10px;
+    }
+    
+    .publish-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    
+    .publish-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    /* Editable Sections (if needed) */
+    .editable-section {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      position: relative;
+    }
+    
+    .edit-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .edit-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    .edit-form {
+      display: none;
+      margin-top: 10px;
+    }
+    
+    .form-row {
+      margin-bottom: 10px;
+    }
+    
+    .form-row label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .form-row input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .form-actions {
+      margin-top: 10px;
+      text-align: right;
+    }
+    
+    .save-btn, .cancel-btn {
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+    
+    .save-btn {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+    }
+    
+    .cancel-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .course-tabs {
+        flex-direction: column;
+      }
+      
+      .course-tabs .tab-btn {
+        border-bottom: none;
+        border-left: 3px solid transparent;
+      }
+      
+      .course-tabs .tab-btn.active {
+        border-bottom: none;
+        border-left: 3px solid #3498db;
+      }
+      
+      .course-header,
+      .tab-panel {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="instructor.html" class="back-link">
+    <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+  </a>
+
+  <div class="course-detail-container">
+    <div class="course-header">
+      <h1>Psychology</h1>
+    </div>
+
+    <div class="course-tabs">
+      <button class="tab-btn active" data-target="tabContent">Content</button>
+      <button class="tab-btn" data-target="tabAnnouncement">Announcement</button>
+    </div>
+
+    <!-- Content Tab -->
+    <div class="tab-panel active" id="tabContent">
+      <div class="tab-content">
+        <h2>Course Content</h2>
+        <p>This course offers an introduction to the fundamentals of psychology, exploring theories of behavior, mental processes, and the biological, social, and cognitive influences on human behavior. Topics include research methods, memory, perception, emotion, and motivation.</p>
+        
+        <!-- Editable Grading Section (Optional) -->
+        <div class="editable-section" id="gradingSection">
+          <button class="edit-btn" onclick="toggleEdit('grading')"><i class="fas fa-edit"></i> Edit</button>
+          <h3>Course Grading</h3>
+          <div id="gradingDisplay">
+            <p>Assignments: 40%<br>Exams: 60%</p>
+          </div>
+          <div class="edit-form" id="gradingEditForm">
+            <div class="form-row">
+              <label for="assignmentsGrade">Assignments (%):</label>
+              <input type="number" id="assignmentsGrade" value="40" min="0" max="100">
+            </div>
+            <div class="form-row">
+              <label for="examsGrade">Exams (%):</label>
+              <input type="number" id="examsGrade" value="60" min="0" max="100">
+            </div>
+            <div class="form-actions">
+              <button class="save-btn" onclick="saveGrading()">Save</button>
+              <button class="cancel-btn" onclick="cancelEdit('grading')">Cancel</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Editable Office Hours Section (Optional) -->
+        <div class="editable-section" id="officeHoursSection">
+          <button class="edit-btn" onclick="toggleEdit('officeHours')"><i class="fas fa-edit"></i> Edit</button>
+          <h3>Office Hours</h3>
+          <div id="officeHoursDisplay">
+            <p>10:00 - 13:00 (Tuesday & Thursday)</p>
+          </div>
+          <div class="edit-form" id="officeHoursEditForm">
+            <div class="form-row">
+              <label for="hoursFrom">From:</label>
+              <input type="time" id="hoursFrom" value="10:00">
+            </div>
+            <div class="form-row">
+              <label for="hoursTo">To:</label>
+              <input type="time" id="hoursTo" value="13:00">
+            </div>
+            <div class="form-row">
+              <label for="hoursDays">Days:</label>
+              <input type="text" id="hoursDays" value="Tuesday, Thursday">
+            </div>
+            <div class="form-actions">
+              <button class="save-btn" onclick="saveOfficeHours()">Save</button>
+              <button class="cancel-btn" onclick="cancelEdit('officeHours')">Cancel</button>
+            </div>
+          </div>
+        </div>
+        
+        <h3>Instructor</h3>
+        <p><strong>Dr. Angela Merton</strong><br>Email: <a href="mailto:merton@scc.edu.tr">merton@scc.edu.tr</a></p>
+      </div>
+    </div>
+
+    <!-- Announcement Tab -->
+    <div class="tab-panel" id="tabAnnouncement">
+      <div class="announcement-list">
+        <div class="announcement-item">
+          <h4><i class="fas fa-bullhorn"></i> Exam Schedule Update</h4>
+          <p>Please note that the exam schedule has been updated. Check the course portal for specific dates and details.</p>
+          <div class="announcement-meta">
+            <i class="far fa-clock"></i> Posted 11:30 AM - 09/22/2024
+          </div>
+        </div>
+        
+        <div class="announcement-item">
+          <h4><i class="fas fa-bullhorn"></i> Guest Lecture</h4>
+          <p>We are pleased to announce that a guest lecture on modern psychological research methods will take place this Friday.</p>
+          <div class="announcement-meta">
+            <i class="far fa-clock"></i> Posted 2:45 PM - 09/18/2024
+          </div>
+        </div>
+      </div>
+      
+      <!-- New Announcement Form -->
+      <div class="new-announcement">
+        <h3><i class="fas fa-plus-circle"></i> New Announcement</h3>
+        <form id="announcementForm">
+          <div class="form-group">
+            <label for="announcementTitle">Title</label>
+            <input type="text" id="announcementTitle" placeholder="Enter announcement title" required>
+          </div>
+          <div class="form-group">
+            <label for="announcementMessage">Message</label>
+            <textarea id="announcementMessage" placeholder="Write your announcement here..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>File Upload</label>
+            <input type="file" class="file-upload">
+          </div>
+          <button type="submit" class="publish-btn">Publish</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+      });
+    });
+
+    // Announcement form submission
+    const announcementForm = document.getElementById('announcementForm');
+    announcementForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('announcementTitle').value;
+      const message = document.getElementById('announcementMessage').value;
+      
+      // Create new announcement element
+      const announcementList = document.querySelector('.announcement-list');
+      const newAnnouncement = document.createElement('div');
+      newAnnouncement.className = 'announcement-item';
+      newAnnouncement.innerHTML = `
+        <h4><i class="fas fa-bullhorn"></i> ${title}</h4>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+        <div class="announcement-meta">
+          <i class="far fa-clock"></i> Posted just now
+        </div>
+      `;
+      
+      // Insert the new announcement at the top of the list
+      announcementList.insertBefore(newAnnouncement, announcementList.firstChild);
+      
+      // Reset the form
+      announcementForm.reset();
+      
+      // Optional: notify the user
+      alert('Announcement published successfully!');
+    });
+
+    // Functions for editable sections
+    function toggleEdit(section) {
+      const display = document.getElementById(`${section}Display`);
+      const form = document.getElementById(`${section}EditForm`);
+      
+      display.style.display = 'none';
+      form.style.display = 'block';
+    }
+    
+    function cancelEdit(section) {
+      const display = document.getElementById(`${section}Display`);
+      const form = document.getElementById(`${section}EditForm`);
+      
+      display.style.display = 'block';
+      form.style.display = 'none';
+    }
+    
+    function saveGrading() {
+      const assignments = document.getElementById('assignmentsGrade').value;
+      const exams = document.getElementById('examsGrade').value;
+      
+      // Validate total equals 100%
+      if (parseInt(assignments) + parseInt(exams) !== 100) {
+        alert('The sum of percentages must equal 100%');
+        return;
+      }
+      
+      document.getElementById('gradingDisplay').innerHTML = 
+        `<p>Assignments: ${assignments}%<br>Exams: ${exams}%</p>`;
+      
+      cancelEdit('grading');
+    }
+    
+    function saveOfficeHours() {
+      const from = document.getElementById('hoursFrom').value;
+      const to = document.getElementById('hoursTo').value;
+      const days = document.getElementById('hoursDays').value;
+      
+      // Format time (trim seconds if needed)
+      const formattedFrom = from.substring(0, 5);
+      const formattedTo = to.substring(0, 5);
+      
+      document.getElementById('officeHoursDisplay').innerHTML = 
+        `<p>${formattedFrom} - ${formattedTo} (${days})</p>`;
+      
+      cancelEdit('officeHours');
+    }
+  </script>
+</body>
+</html>

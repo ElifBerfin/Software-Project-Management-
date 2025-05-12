@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Final Exam</title>
+  <!-- Font Awesome & main CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles1.css" />
+
+  <!-- Inline styles for exam layout -->
+  <style>
+    .exam-page {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 20px;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 15px; 
+      right: 15px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .exam-header {
+      margin-bottom: 20px;
+    }
+    .exam-header h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .exam-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+    .detail-item i {
+      font-size: 18px;
+      color: #333;
+    }
+
+    /* Grade card */
+    .grade-card {
+      background: #f8f8f8;
+      border-radius: 6px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+    .grade-icon {
+      font-size: 24px;
+      color: #333;
+    }
+    .grade-label {
+      font-size: 14px;
+      color: #666;
+    }
+    .grade-letter {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* Not eligible message */
+    .not-eligible-message {
+      background: #fce8e8;
+      border: 1px solid #f5b5b5;
+      padding: 15px;
+      border-radius: 6px;
+      text-align: center;
+      margin-bottom: 10px;
+      color: #b42828;
+    }
+
+    /* Resit button (disabled) */
+    .resit-button {
+      background: #ccc;
+      color: #777;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: not-allowed;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Optional back to dashboard link -->
+  <div style="margin: 20px;">
+    <a href="student_dashboard.html" style="text-decoration: none; color: #333;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <div class="exam-page">
+    <!-- Close button (optional) -->
+    <span class="close-btn" onclick="window.location.href='student_dashboard.html'">&times;</span>
+
+    <!-- Header -->
+    <div class="exam-header">
+      <h2>Final Exam</h2>
+      <p id="courseName">Loading course...</p>
+    </div>
+
+    <!-- Exam details -->
+    <div class="exam-details">
+      <div class="detail-item">
+        <i class="fa-solid fa-clock"></i>
+        <span>10/5/24, 11:00</span>
+      </div>
+      <div class="detail-item">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>Main Block, C class</span>
+      </div>
+      <div class="detail-item">
+        <i class="fa-solid fa-file-alt"></i>
+        <span>Multiple choice, 20 questions</span>
+      </div>
+      <div class="detail-item">
+        <i class="fa-solid fa-ban"></i>
+        <span>NOT ALLOWED ANY CALCULATOR</span>
+      </div>
+    </div>
+
+    <!-- Grade card (DZ) -->
+    <div class="grade-card">
+      <i class="fa-solid fa-file-invoice grade-icon"></i>
+      <div>
+        <div class="grade-label">Your Grade</div>
+        <div class="grade-letter" id="letterGrade">DZ</div>
+      </div>
+    </div>
+
+    <!-- Not eligible message -->
+    <div class="not-eligible-message">
+      Unfortunately, you can't take the resit exam due to absenteeism. Please talk with your Advisor.
+    </div>
+
+    <!-- Disabled Resit Button -->
+    <button class="resit-button" disabled>I WANT TO TAKE RESIT EXAM</button>
+  </div>
+
+  <script>
+    // Get course name from URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseName = urlParams.get('course') || 'Course';
+    
+    // Set the course name in the page
+    document.getElementById('courseName').textContent = courseName;
+    document.title = `Final Exam - ${courseName}`;
+  </script>
+</body>
+</html>

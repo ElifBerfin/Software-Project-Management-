@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Squidward Community College</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Background container with optional blur -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- Main login container -->
+  <div class="login-container">
+    <div class="logo">
+      <img src="images/logo.png" alt="Squidward Community College Logo"/>
+    </div>
+
+    <h2>Welcome To Squidward Community College Please LOGIN</h2>
+
+    <!-- Login form -->
+    <form id="login-form">
+      <div class="input-group">
+        <label for="username">Email</label>
+        <input type="text" id="username" name="username" placeholder="SCCNetID@sss.edu.tr" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      </div>
+
+      <div class="forgot-password">
+        <a href="forgot_password.html">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="login-btn"><a href="student_dashboard.html">Enter</a>Enter</button>
+    </form>
+  </div>
+
+  <script>
+    // Prevent form submission when Enter key is pressed.
+    const loginForm = document.getElementById("login-form");
+    loginForm.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+      }
+    });
+
+    // Example login handler (Replace with your actual logic/API call)
+    loginForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      
+      // Validate that the username (email) is provided
+      if (!username) {
+        alert("Please enter your email.");
+        return;
+      }
+      
+      // Simulated login logic:
+      // Replace this section with an API call for authentication
+      console.log("Logging in with:", username, password);
+      // For example, redirect based on user role:
+      // window.location.href = "student_dashboard.html";
+    });
+  </script>
+</body>
+</html>

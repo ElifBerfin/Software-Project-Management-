@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logout</title>
+  <link rel="stylesheet" href="styles1.css" />
+  <style>
+    .logout-message {
+      max-width: 400px;
+      margin: 100px auto;
+      text-align: center;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .logout-message h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+    .logout-message p {
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="logout-message">
+    <h1>You have been logged out</h1>
+    <p>Thank you for using our system. Redirecting to the login page...</p>
+  </div>
+  <script>
+    // Clear session data or tokens here if needed
+    // e.g., localStorage.clear();
+
+    // Redirect after a short delay
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 3000); // 3 seconds delay
+  </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+/* Global Reset & Fonts */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #fff;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+/* Student Info at the top */
+.student-info {
+    margin-bottom: 40px;
+}
+.student-name {
+    font-size: 18px;
+    font-weight: 600;
+}
+.student-role {
+    font-size: 14px;
+    color: #999;
+}
+
+/* Navigation Links */
+.nav-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.nav-links ul li {
+    margin-bottom: 20px;
+}
+.nav-links ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+.nav-links ul li.active a {
+    font-weight: bold;
+}
+
+/* Logout at the bottom */
+.logout {
+    margin-top: auto; /* pushes logout link to bottom */
+    padding-top: 20px;
+    border-top: 1px solid #eaeaea;
+}
+.logout a {
+    text-decoration: none;
+    color: #e74c3c;
+    font-size: 16px;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 220px; /* same width as sidebar */
+    padding: 20px 40px;
+}
+.main-content header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.main-content header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+.search-bar {
+    width: 300px;
+    position: relative;
+}
+.search-bar input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Course Cards Grid */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+.course-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.course-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+.course-info {
+    padding: 15px;
+}
+.course-info h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.course-info p {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Responsive: Smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #eaeaea;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .nav-links ul li {
+        display: inline-block;
+        margin-right: 20px;
+    }
+    .logout {
+        margin-top: 20px;
+        border-top: none;
+        padding-top: 0;
+    }
+    .search-bar {
+        width: 200px;
+    }
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------------------------- */
+/* Course Detail / Modal Styles */
+/* ---------------------------------- */
+
+/* Container for course detail pages */
+.course-detail-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Course Tabs Navigation */
+.course-tabs {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.course-tabs .tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 2px solid transparent;
+    margin-right: 20px;
+}
+.course-tabs .tab-btn.active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #000;
+}
+
+/* Tab Panels */
+.tab-panel {
+    display: none;
+    margin-top: 20px;
+}
+.tab-panel.active {
+    display: block;
+}
+
+/* Gradebook Table */
+.gradebook {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.gradebook th, .gradebook td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.gradebook th {
+    background: #f2f2f2;
+    text-align: left;
+}
+
+/* Announcement Items */
+.announcement-item {
+    margin-bottom: 20px;
+}
+.announcement-item h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* (Optional) Additional styles for course content layout */
+.content-layout {
+    display: flex;
+    gap: 20px;
+}
+.content-left {
+    flex: 1 1 60%;
+}
+.content-right {
+    flex: 1 1 40%;
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* ---------------------------------- */
+/* Remove underlines for all links */
+/* ---------------------------------- */
+a {
+    text-decoration: none;
+}
+
+
+.eligible-grade {
+    color: #fff;
+    background: #e67e22;
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .eligible-grade:hover {
+    background: #d35400;
+  }
+  
