@@ -183,20 +183,16 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="instructor-info">
-      <div class="instructor-name">Angela Merton</div>
+      <!-- Örneğin sol üstte -->
+      <div id="instructorName" style="font-weight: bold;">Angela Merton</div>
+
       <div class="instructor-role">Instructor</div>
     </div>
     <nav class="nav-links">
       <ul>
-         <!--  <li class="active"><a href="{% url 'profile'%}"><i class="fa-solid fa-user"></i> Profile</a></li>-->
-         <li>
-          <a href="{% url 'instructor_profile_ınstructor' %}">
-              <i class="fas fa-user"></i> Profile
-          </a>
-      </li>
-      
-        </li>
-        <!--<li><a href="{% url 'exams_grades'%}"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>-->
+        <li class="active"><a href="{% url 'instructor_profile_ınstructor' %}"><i class="fa-solid fa-user"></i>Instructor Profile</a></li>
+        <li><a href="{% url 'instructor' %}"><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li><a href="{% url 'instructor_exams'%}"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
 
       </ul>
     </nav>
@@ -251,26 +247,62 @@
   </main>
 
   <script>
-   document.getElementById('profileForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      // Gather form values
-      const firstname = document.getElementById('firstname').value;
-      const lastname = document.getElementById('lastname').value;
-      const email = document.getElementById('email').value;
-      const instructorID = document.getElementById('instructorID').value;
-      const department = document.getElementById('department').value;
-      const office = document.getElementById('office').value;
-      
-      alert(`Profile updated!
-Name: ${firstname} ${lastname}
+  // Sayfa yüklenince localStorage'dan verileri geri al
+  window.addEventListener('DOMContentLoaded', function () {
+    if (localStorage.getItem('firstname')) {
+      document.getElementById('firstname').value = localStorage.getItem('firstname');
+      document.getElementById('lastname').value = localStorage.getItem('lastname');
+      document.getElementById('email').value = localStorage.getItem('email');
+      document.getElementById('instructorID').value = localStorage.getItem('instructorID');
+      document.getElementById('department').value = localStorage.getItem('department');
+      document.getElementById('office').value = localStorage.getItem('office');
+
+      // Sol üst köşedeki adı da güncelle (varsa)
+      const nameDisplay = document.getElementById('instructorName');
+      if (nameDisplay) {
+        nameDisplay.textContent = `${localStorage.getItem('firstname')} ${localStorage.getItem('lastname')}`;
+      }
+    }
+  });
+
+  // Form gönderildiğinde verileri kaydet
+  document.getElementById('profileForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const firstname = document.getElementById('firstname').value;
+    const lastname = document.getElementById('lastname').value;
+    const email = document.getElementById('email').value;
+    const instructorID = document.getElementById('instructorID').value;
+    const department = document.getElementById('department').value;
+    const office = document.getElementById('office').value;
+
+    // Verileri sakla
+    localStorage.setItem('firstname', firstname);
+    localStorage.setItem('lastname', lastname);
+    localStorage.setItem('email', email);
+    localStorage.setItem('instructorID', instructorID);
+    localStorage.setItem('department', department);
+    localStorage.setItem('office', office);
+
+    // Sol üst köşedeki adı güncelle (varsa)
+    const nameDisplay = document.getElementById('instructorName');
+    if (nameDisplay) {
+      nameDisplay.textContent = `${firstname} ${lastname}`;
+    }
+
+alert(`Profile updated!
+
+Name: ${firstname} ${lastname} 
 Email: ${email}
 Instructor ID: ${instructorID}
 Department: ${department}
 Office: ${office}`);
-      // In a real app, submit these values via AJAX/fetch to the server.
-    });
-  </script>
+
+
+      document.getElementById('instructorName').textContent = `${localStorage.getItem('firstname')} ${localStorage.getItem('lastname')}`
+  });
+</script>
+
+  
 </body>
 </html>
-
-
