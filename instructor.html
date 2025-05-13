@@ -270,24 +270,17 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="instructor-info">
-      <div class="instructor-name">Angela Merton</div>
+      <div id="instructorName" style="font-weight: bold;">Angela Merton</div>
+
       <div class="instructor-role">Instructor</div>
     </div>
     <nav class="nav-links">
       <ul>
-       <!-- <li><a href="{% url 'instructor' %}">Instructor Page</a>-->
-        <li>
-          <a href="{% url 'instructor_profile_ınstructor' %}">
-            <i class="fa-solid fa-user" style="margin-right: 8px;"></i>Instructor Profile
-          </a>
-        </li>
-          <!-- Instructor profil linki -->
-            
-        </li>
+     
+        <li><a href="{% url 'profile_ınstructor' %}"><i class="fa-solid fa-user" style="margin-right: 8px;"></i>Instructor Profile</a></li>
         <li class="active"><a href="#"><i class="fa-solid fa-book"></i> Courses</a></li>
         <li><a href="{% url 'instructor_exams'%}"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
-        <!--<li><a href="{% url 'exams_grades'%}"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>-->
-         <!--<li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> Profile</a></li>-->
+        
       </ul>
     </nav>
     <div class="logout_">
@@ -338,43 +331,52 @@
   </main>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const courseSearchInput = document.getElementById('courseSearch');
-      const coursesGrid = document.getElementById('coursesGrid');
-      const courseCards = coursesGrid.querySelectorAll('.course-card');
-      const resultsInfo = document.getElementById('resultsInfo');
-      const noResults = document.getElementById('noResults');
+   document.addEventListener('DOMContentLoaded', function() { 
+  // Instructor name'i güncelle
+  const instructorNameEl = document.getElementById('instructorName');
+  if (instructorNameEl) {
+    const first = localStorage.getItem('firstname') || '';
+    const last = localStorage.getItem('lastname') || '';
+    instructorNameEl.textContent = `${first} ${last}`;
+  }
+
+  // Arama işlemi
+  const courseSearchInput = document.getElementById('courseSearch');
+  const coursesGrid = document.getElementById('coursesGrid');
+  const courseCards = coursesGrid.querySelectorAll('.course-card');
+  const resultsInfo = document.getElementById('resultsInfo');
+  const noResults = document.getElementById('noResults');
+  
+  courseSearchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase().trim();
+    let visibleCount = 0;
+    
+    courseCards.forEach(card => {
+      const title = card.getAttribute('data-title').toLowerCase();
+      const instructor = card.getAttribute('data-instructor').toLowerCase();
       
-      courseSearchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
-        let visibleCount = 0;
-        
-        courseCards.forEach(card => {
-          const title = card.getAttribute('data-title').toLowerCase();
-          const instructor = card.getAttribute('data-instructor').toLowerCase();
-          
-          if (title.includes(searchTerm) || instructor.includes(searchTerm)) {
-            card.style.display = 'block';
-            visibleCount++;
-          } else {
-            card.style.display = 'none';
-          }
-        });
-        
-        // Update results count
-        resultsInfo.textContent = `${visibleCount} ${visibleCount === 1 ? 'course' : 'courses'} found`;
-        
-        // Show/hide no results message
-        if (visibleCount === 0 && searchTerm.length > 0) {
-          noResults.style.display = 'block';
-          coursesGrid.style.display = 'none';
-        } else {
-          noResults.style.display = 'none';
-          coursesGrid.style.display = 'grid';
-        }
-      });
+      if (title.includes(searchTerm) || instructor.includes(searchTerm)) {
+        card.style.display = 'block';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
     });
+    
+    // Update results count
+    resultsInfo.textContent = `${visibleCount} ${visibleCount === 1 ? 'course' : 'courses'} found`;
+
+    // Show/hide no results message
+    if (visibleCount === 0 && searchTerm.length > 0) {
+      noResults.style.display = 'block';
+      coursesGrid.style.display = 'none';
+    } else {
+      noResults.style.display = 'none';
+      coursesGrid.style.display = 'grid';
+    }
+  });
+});
+
   </script>
 </body>
 </html>
-
