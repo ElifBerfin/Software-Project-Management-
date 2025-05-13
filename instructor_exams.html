@@ -265,13 +265,17 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="instructor-info">
-      <div class="instructor-name">Angela Merton</div>
+      <span id="instructorName" style="font-weight: bold;">Angela Merton</span>
+
+
       <div class="instructor-role">Instructor</div>
     </div>
     <nav class="nav-links">
       <ul>
-        <li><a href="{% url 'instructor_exams' %}"><i class="fa-solid fa-pen-to-square"></i> Exams</a></li>
-       <!--<li><a href="{% url 'profile_ınstructor' %}"><i class="fa-solid fa-user"></i> Profile</a></li>-->
+        <li><a href="{% url 'profile_ınstructor' %}"><i class="fa-solid fa-user"></i> Instructor Profile</a></li>
+        <li><a href="{% url 'instructor' %}"><i class="fa-solid fa-book"></i> Courses</a></li>
+        <li class="active"><a href="#"><i class="fa-solid fa-calendar-alt"></i> Exams & Dates</a></li>
+
       </ul>
     </nav>
     <div class="logout_">
@@ -297,12 +301,14 @@
           <div class="exam-info">
             <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Final Exam</span>
             <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 12/5/24</span>
+            <span class="exam-time"><i class="fa-solid fa-clock"></i> 11:00</span>
           </div>
         </li>
         <li class="grade-item">
           <div class="exam-info">
             <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Resit Exam</span>
             <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 30/5/24</span>
+            <span class="exam-time"><i class="fa-solid fa-clock"></i> 14:00</span>
           </div>
         </li>
       </ul>
@@ -315,12 +321,14 @@
           <div class="exam-info">
             <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Final Exam</span>
             <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 14/5/24</span>
+            <span class="exam-time"><i class="fa-solid fa-clock"></i> 09:00</span>
           </div>
         </li>
         <li class="grade-item">
           <div class="exam-info">
             <span class="exam-name"><i class="fa-solid fa-file-alt"></i> Resit Exam</span>
             <span class="exam-date"><i class="fa-solid fa-calendar-alt"></i> 27/5/24</span>
+            <span class="exam-time"><i class="fa-solid fa-clock"></i> 10:00</span>
           </div>
         </li>
       </ul>
@@ -362,6 +370,7 @@
         // Update results count
         resultsInfo.textContent = `${visibleCount} ${visibleCount === 1 ? 'course' : 'courses'} found`;
 
+
         // Show/hide no results message
         if (visibleCount === 0 && searchTerm.length > 0) {
           noResults.style.display = 'block';
@@ -379,12 +388,23 @@
     if (storedExamAzer) {
       const exam = JSON.parse(storedExamAzer);
       document.getElementById('examSummaryAzer').textContent =
-        `Exam Type: ${exam.type} | Date: ${exam.date} | Time: ${exam.time}`;
+      `Exam Type: ${exam.type} | Date: ${exam.date} | Time: ${exam.time}`;
+
     } else {
       document.getElementById('examSummaryAzer').textContent = 'No exam information found in session.';
     }
   </script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const instructorNameEl = document.getElementById('instructorName');
+    if (instructorNameEl) {
+      const first = localStorage.getItem('firstname') || '';
+      const last = localStorage.getItem('lastname') || '';
+      instructorNameEl.textContent = `${first} ${last}`;
+    }
+  });
+</script>
+
 </body>
 </html>
-
-
